@@ -1,0 +1,63 @@
+[
+    {
+        "action": null,
+        "method": "POST",
+        "inputs": [
+            {
+                "type": "text",
+                "name": "first_name",
+                "placeholder": null
+            },
+            {
+                "type": "text",
+                "name": "last_name",
+                "placeholder": null
+            },
+            {
+                "type": "email",
+                "name": "email",
+                "placeholder": null
+            },
+            {
+                "type": "text",
+                "name": "phone_number",
+                "placeholder": null
+            },
+            {
+                "type": "text",
+                "name": "specialization",
+                "placeholder": null
+            },
+            {
+                "type": "text",
+                "name": "doctor_unique_id",
+                "placeholder": "Auto-generated ID"
+            },
+            {
+                "type": "password",
+                "name": "password",
+                "placeholder": null
+            },
+            {
+                "type": "select",
+                "name": "hospital",
+                "options": [
+                    "",
+                    "{{ hospital.id }}"
+                ]
+            }
+        ],
+        "buttons": [
+            {
+                "type": "submit",
+                "name": null,
+                "text": "Register"
+            },
+            {
+                "type": "button",
+                "name": null,
+                "text": "Reset Form"
+            }
+        ]
+    }
+]
