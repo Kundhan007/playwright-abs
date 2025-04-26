@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
+import json
 
 def extract_form_elements(html_content):
     soup = BeautifulSoup(html_content, 'html.parser')
@@ -61,4 +62,10 @@ def parse_forms(source, from_url=False):
             html_content = file.read()
 
     forms_data = extract_form_elements(html_content)
+    return forms_data
+
+def parse_forms_static(source, output_file, from_url=False):
+    forms_data = parse_forms(source, from_url)
+    with open(output_file, 'w', encoding='utf-8') as json_file:
+        json.dump(forms_data, json_file, indent=4)
     return forms_data
