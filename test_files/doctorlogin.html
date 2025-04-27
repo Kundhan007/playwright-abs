@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- Ensure proper scaling on mobile devices -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Doctor Login</title>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    window.FontAwesomeConfig = {
+      autoReplaceSvg: 'nest', // Options: 'nest', 'remove', 'replace'
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <style>
+    * {
+      font-family: "{{font}}", sans-serif;
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+
+  <style>
+    .highlighted-section {
+      outline: 2px solid #3F20FB;
+      background-color: rgba(63, 32, 251, 0.1);
+    }
+    .edit-button {
+      position: absolute;
+      z-index: 1000;
+    }
+  </style>
+
+  <style>
+    :root {
+      /* Base colors */
+      --color-base: #ffffff;
+      --color-base-50: #f9fafb;
+      --color-base-100: #f3f4f6;
+      --color-base-200: #e5e7eb;
+      --color-base-300: #d1d5db;
+      --color-base-400: #9ca3af;
+      --color-base-500: #6b7280;
+      --color-base-600: #4b5563;
+      --color-base-700: #374151;
+      --color-base-800: #1f2937;
+      --color-base-900: #111827;
+      --color-base-content: #1f2937;
+
+      /* Primary colors */
+      --color-primary: #3b82f6;
+      --color-primary-50: #eff6ff;
+      --color-primary-100: #dbeafe;
+      --color-primary-200: #bfdbfe;
+      --color-primary-300: #93c5fd;
+      --color-primary-400: #60a5fa;
+      --color-primary-500: #3b82f6;
+      --color-primary-600: #2563eb;
+      --color-primary-700: #1d4ed8;
+      --color-primary-800: #1e40af;
+      --color-primary-900: #1e3a8a;
+      --color-primary-focus: #2563eb;
+      --color-primary-content: #ffffff;
+
+      /* Secondary colors */
+      --color-secondary: #8b5cf6;
+      --color-secondary-50: #f5f3ff;
+      --color-secondary-100: #ede9fe;
+      --color-secondary-200: #ddd6fe;
+      --color-secondary-300: #c4b5fd;
+      --color-secondary-400: #a78bfa;
+      --color-secondary-500: #8b5cf6;
+      --color-secondary-600: #7c3aed;
+      --color-secondary-700: #6d28d9;
+      --color-secondary-800: #5b21b6;
+      --color-secondary-900: #4c1d95;
+      --color-secondary-focus: #7c3aed;
+      --color-secondary-content: #ffffff;
+
+      /* Accent colors */
+      --color-accent: #f472b6;
+      --color-accent-50: #fdf2f8;
+      --color-accent-100: #fce7f3;
+      --color-accent-200: #fbcfe8;
+      --color-accent-300: #f9a8d4;
+      --color-accent-400: #f472b6;
+      --color-accent-500: #ec4899;
+      --color-accent-600: #db2777;
+      --color-accent-700: #be185d;
+      --color-accent-800: #9d174d;
+      --color-accent-900: #831843;
+      --color-accent-focus: #db2777;
+      --color-accent-content: #ffffff;
+
+      /* Neutral colors */
+      --color-neutral: #6b7280;
+      --color-neutral-50: #f9fafb;
+      --color-neutral-100: #f3f4f6;
+      --color-neutral-200: #e5e7eb;
+      --color-neutral-300: #d1d5db;
+      --color-neutral-400: #9ca3af;
+      --color-neutral-500: #6b7280;
+      --color-neutral-600: #4b5563;
+      --color-neutral-700: #374151;
+      --color-neutral-800: #1f2937;
+      --color-neutral-900: #111827;
+      --color-neutral-focus: #4b5563;
+      --color-neutral-content: #ffffff;
+
+      /* Info and other colors omitted for brevity */
+    }
+  </style>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              DEFAULT: "var(--color-primary)",
+              50: "var(--color-primary-50)",
+              100: "var(--color-primary-100)",
+              200: "var(--color-primary-200)",
+              300: "var(--color-primary-300)",
+              400: "var(--color-primary-400)",
+              500: "var(--color-primary-500)",
+              600: "var(--color-primary-600)",
+              700: "var(--color-primary-700)",
+              800: "var(--color-primary-800)",
+              900: "var(--color-primary-900)",
+              focus: "var(--color-primary-focus)",
+              content: "var(--color-primary-content)"
+            },
+            secondary: {
+              DEFAULT: "var(--color-secondary)",
+              50: "var(--color-secondary-50)",
+              100: "var(--color-secondary-100)",
+              200: "var(--color-secondary-200)",
+              300: "var(--color-secondary-300)",
+              400: "var(--color-secondary-400)",
+              500: "var(--color-secondary-500)",
+              600: "var(--color-secondary-600)",
+              700: "var(--color-secondary-700)",
+              800: "var(--color-secondary-800)",
+              900: "var(--color-secondary-900)",
+              focus: "var(--color-secondary-focus)",
+              content: "var(--color-secondary-content)"
+            },
+            accent: {
+              DEFAULT: "var(--color-accent)",
+              50: "var(--color-accent-50)",
+              100: "var(--color-accent-100)",
+              200: "var(--color-accent-200)",
+              300: "var(--color-accent-300)",
+              400: "var(--color-accent-400)",
+              500: "var(--color-accent-500)",
+              600: "var(--color-accent-600)",
+              700: "var(--color-accent-700)",
+              800: "var(--color-accent-800)",
+              900: "var(--color-accent-900)",
+              focus: "var(--color-accent-focus)",
+              content: "var(--color-accent-content)"
+            },
+            neutral: {
+              DEFAULT: "var(--color-neutral)",
+              50: "var(--color-neutral-50)",
+              100: "var(--color-neutral-100)",
+              200: "var(--color-neutral-200)",
+              300: "var(--color-neutral-300)",
+              400: "var(--color-neutral-400)",
+              500: "var(--color-neutral-500)",
+              600: "var(--color-neutral-600)",
+              700: "var(--color-neutral-700)",
+              800: "var(--color-neutral-800)",
+              900: "var(--color-neutral-900)",
+              focus: "var(--color-neutral-focus)",
+              content: "var(--color-neutral-content)"
+            }
+          }
+        }
+      },
+      variants: {
+        extend: {
+          backgroundColor: ['active', 'group-hover'],
+          textColor: ['active', 'group-hover'],
+        }
+      },
+      plugins: []
+    };
+  </script>
+  <script type="text/javascript">
+    // If the current window is within a frame, break out and load the page in the full window.
+    if (window.top !== window.self) {
+      window.top.location.href = window.location.href;
+    }
+  </script>
+</head>
+<body class="h-full text-base-content">
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <script>
+        // Iterate through all flashed messages
+        {% for category, message in messages %}
+          // Display each message using a simple alert popup
+          alert("{{ message }}");
+        {% endfor %}
+      </script>
+    {% endif %}
+  {% endwith %}
+  <div class="bg-[#1a1a1a] min-h-screen w-full flex items-center justify-center p-4">
+    <div id="login-container" class="max-w-md w-full mx-4 bg-[#2a2a2a] rounded-xl shadow-2xl overflow-hidden">
+      <div class="p-8">
+        <div id="login-header" class="text-center mb-8">
+          <img src="{{ url_for('static', filename='images/logo_transparent.png') }}" alt="AbhiDoc Logo" class="h-12 w-12 mx-auto mb-4">
+          <div class="w-20 h-20 mx-auto bg-[#3a3a3a] rounded-full flex items-center justify-center mb-4">
+            <i class="fa-solid fa-user-md text-3xl text-white"></i>
+          </div>
+          <h2 class="text-2xl font-bold text-white mb-2">Doctor Login</h2>
+          <p class="text-gray-400">Please enter your credentials</p>
+        </div>
+        <form method="POST" action="/doctor/login" class="space-y-6">
+          <div class="space-y-2">
+            <label for="username_or_email" class="block text-sm font-medium text-gray-300">Doctor ID or Email</label>
+            <div class="relative">
+              <i class="fa-regular fa-envelope absolute left-3 top-3.5 text-gray-400"></i>
+              <input type="text" id="username_or_email" name="username_or_email" required class="w-full bg-[#3a3a3a] border border-[#4a4a4a] rounded-lg pl-10 pr-4 py-3 text-white placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+            </div>
+          </div>
+          <div class="space-y-2">
+            <label for="password" class="block text-sm font-medium text-gray-300">Password</label>
+            <div class="relative">
+              <i class="fa-solid fa-lock absolute left-3 top-3.5 text-gray-400"></i>
+              <input type="password" id="password" name="password" required class="w-full bg-[#3a3a3a] border border-[#4a4a4a] rounded-lg pl-10 pr-4 py-3 text-white placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+            </div>
+          </div>
+          <div class="flex items-center justify-between text-sm">
+            <label class="flex items-center text-gray-400">
+              <input type="checkbox" class="w-4 h-4 rounded bg-[#3a3a3a] border-[#4a4a4a] text-blue-500 focus:ring-blue-500 focus:ring-offset-0">
+              <span class="ml-2">Remember me</span>
+            </label>
+            <span class="text-sm text-blue-500 hover:text-blue-400 cursor-pointer" onclick="alert('For password recovery, please contact with your Name, email details to abhidoc.help@gmail.com');">
+            Forgot password?
+          </span>
+          </div>
+          <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-[#2a2a2a]">
+            Login
+          </button>
+        </form>
+        <div class="mt-6 text-center text-sm">
+          <span class="text-gray-400">Need technical support? </span>
+          <span class="text-blue-500 hover:text-blue-400 cursor-pointer">Contact IT Help Desk</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

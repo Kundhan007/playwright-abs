@@ -1,0 +1,30 @@
+[
+    {
+        "action": "/doctor/login",
+        "method": "POST",
+        "inputs": [
+            {
+                "type": "text",
+                "name": "username_or_email",
+                "placeholder": null
+            },
+            {
+                "type": "password",
+                "name": "password",
+                "placeholder": null
+            },
+            {
+                "type": "checkbox",
+                "name": null,
+                "placeholder": null
+            }
+        ],
+        "buttons": [
+            {
+                "type": "submit",
+                "name": null,
+                "text": "Login"
+            }
+        ]
+    }
+]

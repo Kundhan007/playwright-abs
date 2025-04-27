@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html class="">
+<head>
+    <meta charset="utf-8">
+    <!-- Responsive Meta Tag -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Doctor Profile</title>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.FontAwesomeConfig = { autoReplaceSvg: 'nest' };
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        ::-webkit-scrollbar { display: none; }
+    </style>
+    <style>
+        * { font-family: "{{font}}", sans-serif; }
+    </style>
+    <style>
+        .highlighted-section {
+          outline: 2px solid #3F20FB;
+          background-color: rgba(63, 32, 251, 0.1);
+        }
+        .edit-button {
+          position: absolute;
+          z-index: 1000;
+        }
+    </style>
+    <style>
+        :root {
+          /* Base colors */
+          --color-base: #ffffff;
+          --color-base-content: #1f2937;
+          /* Primary colors */
+          --color-primary: #3b82f6;
+          --color-primary-50: #eff6ff;
+          --color-primary-100: #dbeafe;
+          --color-primary-200: #bfdbfe;
+          --color-primary-300: #93c5fd;
+          --color-primary-400: #60a5fa;
+          --color-primary-500: #3b82f6;
+          --color-primary-600: #2563eb;
+          --color-primary-700: #1d4ed8;
+          --color-primary-800: #1e40af;
+          --color-primary-900: #1e3a8a;
+          --color-primary-focus: #2563eb;
+          --color-primary-content: #ffffff;
+          /* Secondary colors */
+          --color-secondary: #8b5cf6;
+          --color-secondary-50: #f5f3ff;
+          --color-secondary-100: #ede9fe;
+          --color-secondary-200: #ddd6fe;
+          --color-secondary-300: #c4b5fd;
+          --color-secondary-400: #a78bfa;
+          --color-secondary-500: #8b5cf6;
+          --color-secondary-600: #7c3aed;
+          --color-secondary-700: #6d28d9;
+          --color-secondary-800: #5b21b6;
+          --color-secondary-900: #4c1d95;
+          --color-secondary-focus: #7c3aed;
+          --color-secondary-content: #ffffff;
+        }
+    </style>
+    <style>
+        /* Dark theme overrides */
+        .dark {
+          --color-base: #1f2937;
+          --color-base-content: #f9fafb;
+          --color-primary: #60a5fa;
+          --color-primary-50: #1e3a8a;
+          --color-primary-100: #1e40af;
+          --color-primary-200: #1d4ed8;
+          --color-primary-300: #2563eb;
+          --color-primary-400: #3b82f6;
+          --color-primary-500: #60a5fa;
+          --color-primary-600: #93c5fd;
+          --color-primary-700: #bfdbfe;
+          --color-primary-800: #dbeafe;
+          --color-primary-900: #eff6ff;
+          --color-primary-focus: #3b82f6;
+          --color-primary-content: #1f2937;
+          /* Secondary colors can be similarly overridden */
+        }
+    </style>
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                primary: {
+                  DEFAULT: "var(--color-primary)",
+                  50: "var(--color-primary-50)",
+                  100: "var(--color-primary-100)",
+                  200: "var(--color-primary-200)",
+                  300: "var(--color-primary-300)",
+                  400: "var(--color-primary-400)",
+                  500: "var(--color-primary-500)",
+                  600: "var(--color-primary-600)",
+                  700: "var(--color-primary-700)",
+                  800: "var(--color-primary-800)",
+                  900: "var(--color-primary-900)",
+                  focus: "var(--color-primary-focus)",
+                  content: "var(--color-primary-content)"
+                },
+                secondary: {
+                  DEFAULT: "var(--color-secondary)",
+                  50: "var(--color-secondary-50)",
+                  100: "var(--color-secondary-100)",
+                  200: "var(--color-secondary-200)",
+                  300: "var(--color-secondary-300)",
+                  400: "var(--color-secondary-400)",
+                  500: "var(--color-secondary-500)",
+                  600: "var(--color-secondary-600)",
+                  700: "var(--color-secondary-700)",
+                  800: "var(--color-secondary-800)",
+                  900: "var(--color-secondary-900)",
+                  focus: "var(--color-secondary-focus)",
+                  content: "var(--color-secondary-content)"
+                }
+              }
+            }
+          },
+          variants: {
+            extend: {
+              backgroundColor: ['active', 'group-hover'],
+              textColor: ['active', 'group-hover']
+            }
+          },
+          plugins: []
+        };
+    </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('email').addEventListener('input', function (e) {
+          var email = e.target.value;
+          // Define the allowed TLDs for validation
+          var allowedTLDs = ['.com', '.co.uk', '.net', '.org', '.co', '.io', '.in', '.info'];
+
+          // Regular expression for validating the general email format
+          var regex = /^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?)$/;
+          var match = email.match(regex);
+
+          if (match) {
+              var domain = match[1].toLowerCase();
+              // Check if the domain ends with one of the allowed TLDs
+              var validTLD = allowedTLDs.some(function(tld) {
+                  return domain.endsWith(tld);
+              });
+              // If not valid, check for domains ending with .co.* (e.g., .co.in, .co.jp)
+              if (!validTLD) {
+                  validTLD = /.*\.co\.[a-z]+$/.test(domain);
+              }
+              if (validTLD) {
+                  e.target.setCustomValidity('');
+                  document.getElementById('emailError').classList.add('hidden');
+              } else {
+                  e.target.setCustomValidity('Invalid domain TLD');
+                  document.getElementById('emailError').classList.remove('hidden');
+              }
+          } else {
+              e.target.setCustomValidity('Invalid email format');
+              document.getElementById('emailError').classList.remove('hidden');
+          }
+      });
+    });
+  </script>
+</head>
+
+<body class="h-full text-base-content">
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<script>
+    // Iterate through all flashed messages
+    {% for category, message in messages %}
+      // Display each message using a simple alert popup
+      alert("{{ message }}");
+    {% endfor %}
+</script>
+{% endif %}
+{% endwith %}
+<div class="min-h-full bg-gray-900 text-gray-100">
+    <main id="main-content" class="p-8">
+        <div class="max-w-4xl mx-auto">
+            <header id="header" class="flex items-center mb-8">
+                <div class="flex items-center gap-4">
+                    <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg" alt="Doctor" class="w-16 h-16 rounded-full">
+                    <div>
+                        <h1 class="text-2xl font-bold">Dr. {{ doctor['First_Name'] }}</h1>
+                        <p class="text-gray-400">{{ doctor['Specialization'] }}</p>
+                    </div>
+                </div>
+            </header>
+            <div id="stats-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <div class="flex items-center gap-4">
+                        <div class="p-3 bg-blue-500/20 rounded-lg">
+                            <i class="fa-solid fa-calendar-check text-blue-500 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-400">Upcoming Appointments</p>
+                            <h3 class="text-2xl font-bold">{{  doctor['todays_appointments'] }}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <div class="flex items-center gap-4">
+                        <div class="p-3 bg-green-500/20 rounded-lg">
+                            <i class="fa-solid fa-user-group text-green-500 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-400">Patients Visited</p>
+                            <h3 class="text-2xl font-bold">{{ doctor['todays_visits'] }}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <div class="flex items-center gap-4">
+                        <div class="p-3 bg-purple-500/20 rounded-lg">
+                            <i class="fa-solid fa-hospital text-purple-500 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-400">Hospitals</p>
+                            <h3 class="text-2xl font-bold">{{ doctor['hospitals'] }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Profile Form -->
+            <div id="profile-form" class="bg-gray-800 rounded-xl p-8">
+                <form id="doctor-form" method="POST" action="/update_doctor" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="first_name" class="block text-sm font-medium mb-2">First Name</label>
+                            <input type="text" id="first_name" name="first_name" value="{{ doctor['First_Name'] }}" class="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label for="last_name" class="block text-sm font-medium mb-2">Last Name</label>
+                            <input type="text" id="last_name" name="last_name" value="{{ doctor['Last_Name'] }}" class="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label for="specialization" class="block text-sm font-medium mb-2">Specialization</label>
+                            <input type="text" id="specialization" name="specialization" value="{{ doctor['Specialization'] }}" class="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium mb-2">Email</label>
+                            <input type="email" id="email" name="email" value="{{ doctor['Email'] }}" class="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label for="phone" class="block text-sm font-medium mb-2">Phone</label>
+                            <input type="text" id="phone" name="phone" value="{{ doctor['Phone_Number'] }}" pattern="^\+?\d{10,13}$" class="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label for="password" class="block text-sm font-medium mb-2">Password</label>
+                            <input type="password" id="password" name="password" placeholder="Enter new password" class="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                        </div>
+                    </div>
+                    <div class="flex justify-end">
+                        <button type="submit" class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800">
+                            Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+    </main>
+</div>
+</body>
+</html>

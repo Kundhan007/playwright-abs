@@ -1,0 +1,45 @@
+[
+    {
+        "action": "/update_doctor",
+        "method": "POST",
+        "inputs": [
+            {
+                "type": "text",
+                "name": "first_name",
+                "placeholder": null
+            },
+            {
+                "type": "text",
+                "name": "last_name",
+                "placeholder": null
+            },
+            {
+                "type": "text",
+                "name": "specialization",
+                "placeholder": null
+            },
+            {
+                "type": "email",
+                "name": "email",
+                "placeholder": null
+            },
+            {
+                "type": "text",
+                "name": "phone",
+                "placeholder": null
+            },
+            {
+                "type": "password",
+                "name": "password",
+                "placeholder": "Enter new password"
+            }
+        ],
+        "buttons": [
+            {
+                "type": "submit",
+                "name": null,
+                "text": "Save Changes"
+            }
+        ]
+    }
+]
